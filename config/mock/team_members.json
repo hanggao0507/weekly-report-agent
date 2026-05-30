@@ -1,0 +1,26 @@
+[
+  {
+    "member_id": "alice",
+    "display_name": "陈艾丽丝",
+    "github_logins": ["alicec"],
+    "github_emails": ["alice@acme.dev"],
+    "feishu_user_id": "ou_alice",
+    "aliases": ["Alice", "Alice Chen", "陈艾丽丝"]
+  },
+  {
+    "member_id": "bob",
+    "display_name": "李博",
+    "github_logins": ["bobli"],
+    "github_emails": ["bob@acme.dev"],
+    "feishu_user_id": "ou_bob",
+    "aliases": ["Bob", "Bob Li", "李博"]
+  },
+  {
+    "member_id": "carol",
+    "display_name": "王珂萝",
+    "github_logins": ["carolw"],
+    "github_emails": ["carol@acme.dev"],
+    "feishu_user_id": "ou_carol",
+    "aliases": ["Carol", "Carol Wang", "王珂萝"]
+  }
+]

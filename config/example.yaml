@@ -1,0 +1,57 @@
+schedule:
+  cron: "0 17 * * 5"
+  timezone: "Asia/Shanghai"
+
+team:
+  name: "平台研发团队"
+  members_file: "./config/mock/team_members.json"
+
+sources:
+  github:
+    enabled: true
+    mode: "mock"
+    mock_data_dir: "./config/mock/github"
+    repos:
+      - "acme/report-bot"
+      - "acme/platform-api"
+    token_env: "GITHUB_TOKEN"
+    base_url: "https://api.github.com"
+  feishu:
+    enabled: true
+    mode: "mock"
+    fixture_paths:
+      calendar: "./config/mock/feishu/calendar.json"
+      messages: "./config/mock/feishu/messages.json"
+    app_id_env: "FEISHU_APP_ID"
+    app_secret_env: "FEISHU_APP_SECRET"
+
+report:
+  template: "default"
+  sections:
+    - "done"
+    - "in_progress"
+    - "risks"
+    - "next_week"
+  output_dir: "./reports"
+  export_formats:
+    - "markdown"
+    - "html"
+  window_days: 7
+
+llm:
+  mode: "mock"
+  provider: "rule-based"
+  model: "weekly-report-template"
+  temperature: 0.0
+  api_key_env: "xxx"
+  base_url: "https://xxx"
+  timeout_seconds: 30.0
+  max_retries: 2
+  fallback_to_mock: true
+  prompt_template: "./src/templates/prompts/weekly_report_summary.txt"
+
+app:
+  db_path: "./weekly_report.db"
+  host: "127.0.0.1"
+  port: 8000
+  title: "Weekly Report Agent"

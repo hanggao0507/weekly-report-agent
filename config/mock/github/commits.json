@@ -1,0 +1,29 @@
+[
+  {
+    "sha": "8f21d11",
+    "repo": "acme/report-bot",
+    "message": "接入周报生成状态轮询与下载操作",
+    "author_login": "alicec",
+    "author_email": "alice@acme.dev",
+    "html_url": "https://github.com/acme/report-bot/commit/8f21d11",
+    "committed_at": "2026-05-27T10:15:00+08:00"
+  },
+  {
+    "sha": "9bc2201",
+    "repo": "acme/platform-api",
+    "message": "优化问题同步的重试处理逻辑",
+    "author_login": "bobli",
+    "author_email": "bob@acme.dev",
+    "html_url": "https://github.com/acme/platform-api/commit/9bc2201",
+    "committed_at": "2026-05-28T14:20:00+08:00"
+  },
+  {
+    "sha": "c12aa44",
+    "repo": "acme/report-bot",
+    "message": "完善周报导出页面的 Markdown 布局",
+    "author_login": "carolw",
+    "author_email": "carol@acme.dev",
+    "html_url": "https://github.com/acme/report-bot/commit/c12aa44",
+    "committed_at": "2026-05-29T16:40:00+08:00"
+  }
+]

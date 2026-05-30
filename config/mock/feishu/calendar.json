@@ -1,0 +1,38 @@
+[
+  {
+    "event_id": "evt-001",
+    "event_title": "周报助手上线排期会",
+    "start_time": "2026-05-26T10:00:00+08:00",
+    "end_time": "2026-05-26T11:00:00+08:00",
+    "owner_user_id": "ou_alice",
+    "owner_name": "陈艾丽丝",
+    "status": "completed",
+    "attendees": ["ou_alice", "ou_bob", "ou_carol"],
+    "summary": "对齐了上线范围，并分配了仪表盘相关任务。",
+    "next_plan_hint": "跟进周报助手首版上线准备"
+  },
+  {
+    "event_id": "evt-002",
+    "event_title": "上游依赖风险评审",
+    "start_time": "2026-05-29T15:00:00+08:00",
+    "end_time": "2026-05-29T15:30:00+08:00",
+    "owner_user_id": "ou_bob",
+    "owner_name": "李博",
+    "status": "completed",
+    "attendees": ["ou_bob"],
+    "summary": "确认禅道导出格式发生了非预期变化。",
+    "risk_hint": "禅道导出字段发生变更，联调前需要重新校验映射。"
+  },
+  {
+    "event_id": "evt-003",
+    "event_title": "仪表盘页面视觉复审",
+    "start_time": "2026-05-30T14:00:00+08:00",
+    "end_time": "2026-05-30T14:45:00+08:00",
+    "owner_user_id": "ou_carol",
+    "owner_name": "王珂萝",
+    "status": "scheduled",
+    "attendees": ["ou_carol", "ou_alice"],
+    "summary": "演示前复查响应式细节和视觉统一性。",
+    "next_plan_hint": "完成仪表盘响应式细节和视觉润色"
+  }
+]

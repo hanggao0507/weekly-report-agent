@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>周报详情 {{ run.run_id }}</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <p><a class="text-link" href="/">返回首页</a></p>
+
+    <section class="panel detail-hero">
+      <div class="detail-hero__copy">
+        <p class="eyebrow">{{ report.team_name if report else "Weekly Report" }}</p>
+        <h1>{{ run.run_id }}</h1>
+        <p class="lede">
+          {% if report %}
+          {{ report.team_name }}的团队周报已经生成，可直接在此查看关键指标、成员进展和导出产物。
+          {% else %}
+          当前运行详情已生成，可在下方查看下载产物和原始内容。
+          {% endif %}
+        </p>
+      </div>
+      <div class="detail-hero__status">
+        <div class="tag">{{ run.status }}</div>
+        <dl class="meta-grid meta-grid--compact">
+          <div><dt>触发方式</dt><dd>{{ run.trigger }}</dd></div>
+          <div><dt>统计周期</dt><dd>{{ run.window_label or "待生成" }}</dd></div>
+          <div><dt>创建时间</dt><dd>{{ run.created_at.strftime("%Y-%m-%d %H:%M") }}</dd></div>
+          <div><dt>完成时间</dt><dd>{{ run.finished_at.strftime("%Y-%m-%d %H:%M") if run.finished_at else "进行中" }}</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    {% if run.warning_message %}
+    <div class="notice warning">{{ run.warning_message }}</div>
+    {% endif %}
+    {% if run.error_message %}
+    <div class="notice error">{{ run.error_message }}</div>
+    {% endif %}
+
+    <section class="dashboard-grid dashboard-grid--top">
+      <article class="panel summary-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Dashboard</p>
+            <h2>团队概览</h2>
+          </div>
+          {% if report %}
+          <p class="muted-copy">{{ report.generated_at.strftime("%Y-%m-%d %H:%M") }} · {{ report.window.timezone }}</p>
+          {% endif %}
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card stat-card--done">
+            <span>本周完成</span>
+            <strong>{{ dashboard.metrics.done_count or 0 }}</strong>
+          </div>
+          <div class="stat-card stat-card--progress">
+            <span>进行中</span>
+            <strong>{{ dashboard.metrics.in_progress_count or 0 }}</strong>
+          </div>
+          <div class="stat-card stat-card--risk">
+            <span>风险 / 阻塞</span>
+            <strong>{{ dashboard.metrics.risk_count or 0 }}</strong>
+          </div>
+          <div class="stat-card stat-card--plan">
+            <span>下周计划</span>
+            <strong>{{ dashboard.metrics.next_week_count or 0 }}</strong>
+          </div>
+          <div class="stat-card">
+            <span>成员数</span>
+            <strong>{{ dashboard.metrics.member_count or 0 }}</strong>
+          </div>
+          <div class="stat-card {% if (dashboard.metrics.unassigned_count or 0) > 0 %}stat-card--risk{% endif %}">
+            <span>未归因</span>
+            <strong>{{ dashboard.metrics.unassigned_count or 0 }}</strong>
+          </div>
+        </div>
+
+        {% if report %}
+        <div class="source-badges">
+          {% for name, state in report.source_health.items() %}
+          <span class="source-pill {% if state == 'ok' %}source-pill--ok{% else %}source-pill--warn{% endif %}">
+            {{ name }} · {{ state }}
+          </span>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </article>
+
+      <article class="panel download-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Artifacts</p>
+            <h2>下载区</h2>
+          </div>
+          <p class="muted-copy">导出 Markdown 和 HTML 供汇报、归档或二次编辑。</p>
+        </div>
+        <div class="download-grid">
+          {% if run.markdown_path %}
+          <a class="download-card download-card--markdown" href="/reports/{{ run.run_id }}/download.md">
+            <span class="download-card__label">Markdown</span>
+            <strong>下载原始周报</strong>
+            <small>{{ run.markdown_path.split("\\")[-1] }}</small>
+          </a>
+          {% endif %}
+          {% if run.html_path %}
+          <a class="download-card download-card--html" href="/reports/{{ run.run_id }}/download.html">
+            <span class="download-card__label">HTML</span>
+            <strong>下载渲染结果</strong>
+            <small>{{ run.html_path.split("\\")[-1] }}</small>
+          </a>
+          {% endif %}
+        </div>
+        {% if report and report.artifacts and report.artifacts.json_path %}
+        <div class="artifact-note">
+          <strong>结构化快照已生成</strong>
+          <p>{{ report.artifacts.json_path }}</p>
+        </div>
+        {% endif %}
+      </article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel focus-panel focus-panel--risk">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Focus</p>
+            <h2>风险焦点</h2>
+          </div>
+        </div>
+        {% if dashboard.top_risks %}
+        <ul class="focus-list focus-list--risk">
+          {% for risk in dashboard.top_risks %}
+          <li>{{ risk }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty-state">
+          <strong>当前没有明显风险</strong>
+          <p>本次周报未识别到风险或阻塞项。</p>
+        </div>
+        {% endif %}
+      </article>
+
+      <article class="panel focus-panel">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Next</p>
+            <h2>下周重点</h2>
+          </div>
+        </div>
+        {% if dashboard.top_next_steps %}
+        <ul class="focus-list">
+          {% for item in dashboard.top_next_steps %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty-state">
+          <strong>暂无下周计划</strong>
+          <p>当前报告未包含明确的下周计划提示。</p>
+        </div>
+        {% endif %}
+      </article>
+    </section>
+
+    {% if report and report.unassigned_items %}
+    <section class="panel unassigned-panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Attention</p>
+          <h2>未归因工作项</h2>
+        </div>
+        <span class="tag tag--warning">{{ report.unassigned_items | length }} 项待处理</span>
+      </div>
+      <ul class="focus-list focus-list--risk">
+        {% for item in report.unassigned_items %}
+        <li>[{{ item.source }}/{{ item.category }}] {{ item.title }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endif %}
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Members</p>
+          <h2>成员卡片</h2>
+        </div>
+        <p class="muted-copy">每位成员按完成、进行中、风险和下周计划拆分展示。</p>
+      </div>
+      {% if report and report.member_summaries %}
+      <div class="member-grid">
+        {% for member in report.member_summaries %}
+        <article class="member-card {% if member.sections.risks %}member-card--risk{% endif %}">
+          <div class="member-card__header">
+            <div>
+              <h3>{{ member.display_name }}</h3>
+              <p>{{ member.raw_items | length }} 项活动</p>
+            </div>
+            <span class="member-chip {% if member.sections.risks %}member-chip--risk{% else %}member-chip--ok{% endif %}">
+              {% if member.sections.risks %}{{ member.sections.risks | length }} 条风险{% else %}状态稳定{% endif %}
+            </span>
+          </div>
+
+          <div class="member-metrics">
+            <span>完成 {{ member.sections.done | length }}</span>
+            <span>进行中 {{ member.sections.in_progress | length }}</span>
+            <span>风险 {{ member.sections.risks | length }}</span>
+            <span>计划 {{ member.sections.next_week | length }}</span>
+          </div>
+
+          <div class="member-columns">
+            <section>
+              <h4>本周完成</h4>
+              <ul class="member-list">
+                {% if member.sections.done %}
+                {% for item in member.sections.done[:3] %}
+                <li>{{ item }}</li>
+                {% endfor %}
+                {% else %}
+                <li class="member-list__empty">暂无</li>
+                {% endif %}
+              </ul>
+            </section>
+
+            <section>
+              <h4>进行中</h4>
+              <ul class="member-list">
+                {% if member.sections.in_progress %}
+                {% for item in member.sections.in_progress[:3] %}
+                <li>{{ item }}</li>
+                {% endfor %}
+                {% else %}
+                <li class="member-list__empty">暂无</li>
+                {% endif %}
+              </ul>
+            </section>
+          </div>
+
+          {% if member.sections.risks %}
+          <section class="member-risk-box">
+            <h4>风险 / 阻塞</h4>
+            <ul class="member-list member-list--risk">
+              {% for item in member.sections.risks[:3] %}
+              <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </section>
+          {% endif %}
+
+          <section>
+            <h4>下周计划</h4>
+            <ul class="member-list">
+              {% if member.sections.next_week %}
+              {% for item in member.sections.next_week[:3] %}
+              <li>{{ item }}</li>
+              {% endfor %}
+              {% else %}
+              <li class="member-list__empty">暂无</li>
+              {% endif %}
+            </ul>
+          </section>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <strong>当前还没有可展示的成员卡片</strong>
+        <p>请先生成一份包含结构化数据的周报。</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Preview</p>
+          <h2>渲染结果预览</h2>
+        </div>
+        <p class="muted-copy">直接查看最终 HTML 周报效果。</p>
+      </div>
+      {% if run.html_path %}
+      <iframe class="report-frame" src="/reports/{{ run.run_id }}/preview" title="Weekly report preview"></iframe>
+      {% else %}
+      <div class="empty-state">
+        <strong>当前还没有 HTML 产物</strong>
+        <p>请先完成一次周报生成。</p>
+      </div>
+      {% endif %}
+    </section>
+
+    <section class="panel">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Markdown</p>
+          <h2>原始 Markdown</h2>
+        </div>
+      </div>
+      <pre class="code-block">{{ markdown_content }}</pre>
+    </section>
+  </main>
+</body>
+</html>

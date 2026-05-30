@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ settings.app.title }}</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Weekly Report Agent</p>
+        <h1>每周五自动生成团队工作周报</h1>
+        <p class="lede">默认基于 GitHub Mock 与飞书 Mock 数据，支持立即生成、结果下载和历史运行记录。</p>
+      </div>
+      <div class="hero-card">
+        <div class="card-row">
+          <span>调度规则</span>
+          <strong>{{ settings.schedule.cron }}</strong>
+        </div>
+        <div class="card-row">
+          <span>时区</span>
+          <strong>{{ settings.schedule.timezone }}</strong>
+        </div>
+        <div class="card-row">
+          <span>下次运行</span>
+          <strong>{{ next_run_time or "等待调度器初始化" }}</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="action-panel">
+      <div>
+        <h2>立即生成</h2>
+        <p>手动触发一次完整周报生成流程。</p>
+      </div>
+      <div class="actions">
+        <button
+          class="primary-button"
+          hx-post="/reports/generate"
+          hx-target="#action-result"
+          hx-swap="innerHTML"
+        >
+          立即生成
+        </button>
+      </div>
+    </section>
+
+    <div id="action-result"></div>
+
+    <section class="grid">
+      <article id="latest-result-panel" class="panel">
+        <h2>最新结果</h2>
+        {% if latest_run %}
+        <dl class="meta-grid">
+          <div><dt>运行 ID</dt><dd>{{ latest_run.run_id }}</dd></div>
+          <div><dt>状态</dt><dd>{{ latest_run.status }}</dd></div>
+          <div><dt>触发方式</dt><dd>{{ latest_run.trigger }}</dd></div>
+          <div><dt>统计周期</dt><dd>{{ latest_run.window_label or "待生成" }}</dd></div>
+        </dl>
+        <p><a class="text-link" href="/reports/{{ latest_run.run_id }}">查看最新周报</a></p>
+        {% if latest_run.warning_message %}
+        <div class="notice warning">{{ latest_run.warning_message }}</div>
+        {% endif %}
+        {% else %}
+        <p>还没有生成记录，点击上方按钮即可创建第一份周报。</p>
+        {% endif %}
+      </article>
+
+      <article id="history-panel" class="panel">
+        <h2>历史运行</h2>
+        {% if runs %}
+        <ul class="run-list">
+          {% for run in runs %}
+          <li>
+            <a href="/reports/{{ run.run_id }}">{{ run.run_id }}</a>
+            <span>{{ run.status }}</span>
+            <time>{{ run.created_at.strftime("%Y-%m-%d %H:%M") }}</time>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p>暂无运行记录。</p>
+        {% endif %}
+      </article>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,38 @@
+[
+  {
+    "id": 101,
+    "repo": "acme/report-bot",
+    "title": "重构周报聚合处理流水线",
+    "state": "closed",
+    "merged_at": "2026-05-29T11:00:00+08:00",
+    "updated_at": "2026-05-29T11:00:00+08:00",
+    "html_url": "https://github.com/acme/report-bot/pull/101",
+    "author_login": "alicec",
+    "author_email": "alice@acme.dev",
+    "labels": ["enhancement"]
+  },
+  {
+    "id": 102,
+    "repo": "acme/platform-api",
+    "title": "补充禅道同步的兜底处理策略",
+    "state": "open",
+    "merged_at": null,
+    "updated_at": "2026-05-30T09:35:00+08:00",
+    "html_url": "https://github.com/acme/platform-api/pull/102",
+    "author_login": "bobli",
+    "author_email": "bob@acme.dev",
+    "labels": ["blocked", "integration"]
+  },
+  {
+    "id": 103,
+    "repo": "acme/report-bot",
+    "title": "打磨周报仪表盘成员卡片样式",
+    "state": "open",
+    "merged_at": null,
+    "updated_at": "2026-05-30T10:10:00+08:00",
+    "html_url": "https://github.com/acme/report-bot/pull/103",
+    "author_login": "carolw",
+    "author_email": "carol@acme.dev",
+    "labels": ["frontend"]
+  }
+]

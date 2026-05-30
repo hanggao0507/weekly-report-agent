@@ -1,0 +1,102 @@
+# {{ report.team_name }} 周报
+
+生成时间：`{{ report.generated_at.strftime("%Y-%m-%d %H:%M:%S %Z") }}`
+
+统计周期：`{{ report.window.label }}`（{{ report.window.timezone }}）
+
+## 团队总览
+
+### 本周完成
+{% if report.team_summary.done %}
+{% for item in report.team_summary.done %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+### 进行中
+{% if report.team_summary.in_progress %}
+{% for item in report.team_summary.in_progress %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+### 风险 / 阻塞
+{% if report.team_summary.risks %}
+{% for item in report.team_summary.risks %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+### 下周计划
+{% if report.team_summary.next_week %}
+{% for item in report.team_summary.next_week %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+## 成员明细
+
+{% for member in report.member_summaries %}
+### {{ member.display_name }}
+
+#### 本周完成
+{% if member.sections.done %}
+{% for item in member.sections.done %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+#### 进行中
+{% if member.sections.in_progress %}
+{% for item in member.sections.in_progress %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+#### 风险 / 阻塞
+{% if member.sections.risks %}
+{% for item in member.sections.risks %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+#### 下周计划
+{% if member.sections.next_week %}
+{% for item in member.sections.next_week %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- 暂无
+{% endif %}
+
+{% endfor %}
+
+## 数据源状态
+
+{% for name, state in report.source_health.items() %}
+- {{ name }}：{{ state }}
+{% endfor %}
+
+## 未归因工作项
+
+{% if report.unassigned_items %}
+{% for item in report.unassigned_items %}
+- [{{ item.source }}/{{ item.category }}] {{ item.title }}
+{% endfor %}
+{% else %}
+- 无
+{% endif %}

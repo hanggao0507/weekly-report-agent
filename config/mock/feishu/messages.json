@@ -1,0 +1,28 @@
+[
+  {
+    "message_id": "msg-001",
+    "message_time": "2026-05-27T17:20:00+08:00",
+    "sender_user_id": "ou_alice",
+    "sender_name": "陈艾丽丝",
+    "message_text": "今天把周报生成状态轮询接好了，明天继续完善导出下载。",
+    "section_hint": "done",
+    "next_plan_hint": "补齐周报导出和运行状态提示"
+  },
+  {
+    "message_id": "msg-002",
+    "message_time": "2026-05-29T19:10:00+08:00",
+    "sender_user_id": "ou_bob",
+    "sender_name": "李博",
+    "message_text": "禅道那边数据格式有变，当前兜底策略还在验证中。",
+    "risk_hint": "禅道接口字段变化导致同步策略需要补充兼容逻辑。"
+  },
+  {
+    "message_id": "msg-003",
+    "message_time": "2026-05-30T11:25:00+08:00",
+    "sender_user_id": "ou_carol",
+    "sender_name": "王珂萝",
+    "message_text": "结果页成员卡片样式已经调整，接下来补充未归因提示。",
+    "section_hint": "in_progress",
+    "next_plan_hint": "补充未归因工作项提示和说明文案"
+  }
+]
