@@ -1,8 +1,0 @@
-C:\Users\ah\Documents\New project\weekly-report-agent\.venv\Lib\site-packages\langgraph\cache\base\__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
-  from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
-INFO:     Started server process [33332]
-INFO:     Waiting for application startup.
-INFO:     Application startup complete.
-ERROR:    [Errno 10048] error while attempting to bind on address ('127.0.0.1', 8000): 通常每个套接字地址(协议/网络地址/端口)只允许使用一次。
-INFO:     Waiting for application shutdown.
-INFO:     Application shutdown complete.

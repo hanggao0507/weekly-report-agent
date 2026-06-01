@@ -72,6 +72,22 @@ def index(request: Request):
     )
 
 
+@router.get("/partials/home-status", response_class=HTMLResponse)
+def home_status_partial(request: Request):
+    run_service = get_run_service()
+    latest = run_service.latest_run()
+    runs = run_service.list_runs(limit=10)
+    return request.app.state.templates.TemplateResponse(
+        request=request,
+        name="partials/home_status.html",
+        context={
+            "request": request,
+            "latest_run": latest,
+            "runs": runs,
+        },
+    )
+
+
 @router.post("/reports/generate")
 def generate_report(request: Request):
     try:

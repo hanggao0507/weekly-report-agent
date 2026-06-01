@@ -43,7 +43,7 @@ llm:
   provider: "rule-based"
   model: "weekly-report-template"
   temperature: 0.0
-  api_key_env: "xxx"
+  api_key_env: "OPENAI_API_KEY"
   base_url: "https://xxx"
   timeout_seconds: 30.0
   max_retries: 2

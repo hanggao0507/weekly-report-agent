@@ -11,6 +11,10 @@ from src.api.dependencies import get_scheduler_service, get_settings
 def test_generate_report_and_download_artifacts():
     app = create_app()
     with TestClient(app) as client:
+        partial = client.get("/partials/home-status")
+        assert partial.status_code == 200
+        assert "最新结果" in partial.text
+
         response = client.post("/reports/generate", follow_redirects=False)
         assert response.status_code == 303
         location = response.headers["location"]

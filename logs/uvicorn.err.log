@@ -1,4 +1,0 @@
-INFO:     Will watch for changes in these directories: ['C:\\Users\\ah\\Documents\\New project\\weekly-report-agent']
-C:\Users\ah\Documents\New project\weekly-report-agent\.venv\Lib\site-packages\langgraph\cache\base\__init__.py:8: LangChainPendingDeprecationWarning: The default value of `allowed_objects` will change in a future version. Pass an explicit value (e.g., allowed_objects='messages' or allowed_objects='core') to suppress this warning.
-  from langgraph.checkpoint.serde.jsonplus import JsonPlusSerializer
-ERROR:    [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。

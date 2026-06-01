@@ -2,38 +2,6 @@
   周报已生成：<a href="/reports/{{ run.run_id }}">查看结果</a>
 </div>
 
-<section id="latest-result-panel" class="panel" hx-swap-oob="outerHTML">
-  <h2>最新结果</h2>
-  {% if latest_run %}
-  <dl class="meta-grid">
-    <div><dt>运行 ID</dt><dd>{{ latest_run.run_id }}</dd></div>
-    <div><dt>状态</dt><dd>{{ latest_run.status }}</dd></div>
-    <div><dt>触发方式</dt><dd>{{ latest_run.trigger }}</dd></div>
-    <div><dt>统计周期</dt><dd>{{ latest_run.window_label or "待生成" }}</dd></div>
-  </dl>
-  <p><a class="text-link" href="/reports/{{ latest_run.run_id }}">查看最新周报</a></p>
-  {% if latest_run.warning_message %}
-  <div class="notice warning">{{ latest_run.warning_message }}</div>
-  {% endif %}
-  {% else %}
-  <p>还没有生成记录，点击上方按钮即可创建第一份周报。</p>
-  {% endif %}
-</section>
-
-<section id="history-panel" class="panel" hx-swap-oob="outerHTML">
-  <h2>历史运行</h2>
-  {% if runs %}
-  <ul class="run-list">
-    {% for run in runs %}
-    <li>
-      <a href="/reports/{{ run.run_id }}">{{ run.run_id }}</a>
-      <span>{{ run.status }}</span>
-      <time>{{ run.created_at.strftime("%Y-%m-%d %H:%M") }}</time>
-    </li>
-    {% endfor %}
-  </ul>
-  {% else %}
-  <p>暂无运行记录。</p>
-  {% endif %}
-</section>
-
+<div id="home-status-content" hx-swap-oob="innerHTML">
+  {% include "partials/home_status.html" %}
+</div>

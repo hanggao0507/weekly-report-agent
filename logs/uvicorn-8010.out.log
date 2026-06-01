@@ -1,3 +1,0 @@
-INFO:     127.0.0.1:58790 - "GET /reports/73aa96cf9035 HTTP/1.1" 200 OK
-INFO:     127.0.0.1:58790 - "GET /static/styles.css HTTP/1.1" 304 Not Modified
-INFO:     127.0.0.1:58790 - "GET /reports/73aa96cf9035/preview HTTP/1.1" 200 OK
